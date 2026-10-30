@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Calm Companion – demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;700&family=Newsreader:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eaf1f3;--card:#fff;--ink:#16263a;--mute:#5b6c7d;--line:#d3dfe2;--sea:#2b7a75;--seaS:#dcefed;--dusk:#6461b4;--warn:#fff3d6;--warnI:#6b4a0a;--crisis:#b3423a;--crisisS:#fbe7e5;--user:#2b7a75;--userT:#fff;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1a26;--card:#162638;--ink:#e6eef2;--mute:#9db0bf;--line:#27394c;--sea:#5fb8b1;--seaS:#173a3b;--dusk:#a3a0ee;--warn:#3a2f12;--warnI:#f0d9a0;--crisis:#f08178;--crisisS:#3a1d1b;--user:#1f6b66;--userT:#fff;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0e1a26;--card:#162638;--ink:#e6eef2;--mute:#9db0bf;--line:#27394c;--sea:#5fb8b1;--seaS:#173a3b;--dusk:#a3a0ee;--warn:#3a2f12;--warnI:#f0d9a0;--crisis:#f08178;--crisisS:#3a1d1b;--user:#1f6b66;--userT:#fff;color-scheme:dark}
+*{box-sizing:border-box}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Figtree,system-ui,sans-serif}
+header{display:flex;align-items:center;gap:12px;padding:14px 20px;flex-wrap:wrap;max-width:1000px;margin:0 auto}
+.logo{width:34px;height:34px;border-radius:50%;background:radial-gradient(circle at 65% 35%,var(--bg) 0 38%,transparent 39%),var(--dusk)}
+h1{font:600 24px Newsreader,Georgia,serif;margin:0}
+.demo{background:var(--warn);color:var(--warnI);font-size:14px;padding:8px 20px;text-align:center}
+nav{display:flex;gap:4px;flex-wrap:wrap;margin-left:auto}
+nav button{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:8px 14px;border-radius:20px;font:500 14px Figtree,sans-serif;cursor:pointer}
+nav button[aria-current=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+nav .sep{width:1px;background:var(--line);margin:0 4px}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid var(--dusk);outline-offset:2px}
+main{max-width:1000px;margin:0 auto;padding:16px 20px 60px}
+.grid{display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:820px){.grid{grid-template-columns:1.6fr 1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+h2{font:600 20px Newsreader,Georgia,serif;margin:0 0 8px}
+h3{font-size:15px;margin:14px 0 6px}
+.muted{color:var(--mute);font-size:14px}
+#log{height:420px;overflow:auto;display:flex;flex-direction:column;gap:10px;padding:4px}
+.b{max-width:85%;padding:10px 14px;border-radius:16px;white-space:pre-wrap}
+.b.c{background:var(--seaS);align-self:flex-start;border-bottom-left-radius:4px}
+.b.u{background:var(--user);color:var(--userT);align-self:flex-end;border-bottom-right-radius:4px}
+.b.crisis{background:var(--crisisS);border:2px solid var(--crisis)}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+input[type=text],textarea,select{flex:1;min-width:0;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit}
+.btn{border:0;background:var(--sea);color:#fff;padding:10px 16px;border-radius:10px;font:500 15px Figtree,sans-serif;cursor:pointer}
+.btn.alt{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn.danger{background:var(--crisis);color:#fff}
+.chip{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:6px 12px;border-radius:16px;font:14px Figtree,sans-serif;cursor:pointer}
+.alert{background:var(--crisisS);border:2px solid var(--crisis);border-radius:12px;padding:12px;margin-bottom:10px}
+details.why{margin-top:10px;font-size:13px;color:var(--mute)}
+details.why summary{cursor:pointer;color:var(--dusk);font-weight:500}
+.mem{display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--line);font-size:14px}
+.tag{font-size:12px;background:var(--seaS);color:var(--sea);padding:1px 8px;border-radius:10px;white-space:nowrap;align-self:flex-start}
+.skills{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.metrics{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.metric b{display:block;font:600 30px Newsreader,serif}
+.bar{height:8px;border-radius:4px;background:var(--line);overflow:hidden;margin-top:6px}.bar i{display:block;height:100%;background:var(--sea)}
+table{border-collapse:collapse;width:100%;font-size:14px}td,th{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+.scroll{overflow-x:auto}
+dialog{border:1px solid var(--line);border-radius:16px;background:var(--card);color:var(--ink);max-width:460px;width:calc(100% - 32px);padding:20px}
+dialog::backdrop{background:rgba(10,20,30,.55)}
+.big{font:500 22px/1.35 Newsreader,Georgia,serif;margin:14px 0}
+input[type=range]{width:100%}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s;max-width:90%}
+#toast.on{opacity:1}
+.sev{display:inline-block;padding:2px 10px;border-radius:10px;font-size:13px;background:var(--crisisS);color:var(--crisis)}
+.sev.ok{background:var(--seaS);color:var(--sea)}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="demo">Demo – ikke et medicinsk udstyr og ikke til klinisk brug. Kun syntetiske personas. Inspireret af evidens, ikke bevist.</div>
+<header>
+  <div class="logo" aria-hidden="true"></div><h1>Calm Companion</h1>
+  <nav id="nav" aria-label="Visninger"></nav>
+</header>
+<main id="view"></main>
+<dialog id="dlg"></dialog>
+<div id="toast" role="status"></div>
+
+<dialog id="onb">
+  <h2>Velkommen, Sara</h2>
+  <p>Jeg er en AI-coach, ikke en behandler. Jeg stiller ikke diagnoser og rådgiver ikke om medicin. Ved fare henviser jeg til 112 og et menneske i teamet.</p>
+  <p class="muted">Intake er udfyldt for Sara (24, GAD-7: 13). Stressorer: eksamen torsdag, nattegrublerier, projektaflevering. Tjek-ind helst om aftenen.</p>
+  <label><input type="checkbox" id="c1"> Jeg er over 18 år</label><br>
+  <label><input type="checkbox" id="c2"> Jeg giver samtykke til brug af mine data i demoen</label>
+  <div class="row"><button class="btn" id="go">Start</button></div>
+</dialog>
+
+<script>
+const $=s=>document.querySelector(s);
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const SK=[
+{id:'box',n:'Boksånding',fw:'Mindfulness',min:2,st:['Sid roligt. Træk vejret ind gennem næsen i 4 sekunder.','Hold vejret i 4 sekunder.','Pust langsomt ud i 4 sekunder. Hold 4 sekunders pause.','Gentag fire runder. Mærk skuldrene falde.']},
+{id:'ground',n:'5-4-3-2-1 jordforbindelse',fw:'Mindfulness',min:2,st:['Nævn 5 ting, du kan se.','Nævn 4 ting, du kan mærke mod kroppen.','Nævn 3 lyde og 2 dufte.','Nævn 1 ting, du kan smage. Træk vejret dybt én gang.']},
+{id:'worry',n:'Udskyd bekymringen',fw:'KAT',min:2,st:['Skriv bekymringen ned i én sætning.','Spørg: Kan jeg gøre noget ved det lige nu? Hvis nej, sæt det på listen.','Vælg et tidspunkt i morgen, hvor du må bekymre dig i 10 minutter.','Sig til dig selv: Det her får sin tid i morgen. Nu hviler jeg.']},
+{id:'thought',n:'Tankeskema light',fw:'KAT',min:3,st:['Hvad er tanken? Skriv den ned.','Hvad taler for den? Hvad taler imod?','Hvad ville du sige til en ven med den tanke?','Skriv en mere afbalanceret version.']},
+{id:'defuse',n:'Afstand til tanken',fw:'ACT',min:2,st:['Find den svære tanke.','Sig: Jeg har tanken om, at …','Sig: Jeg bemærker, at jeg har tanken om, at …','Se tanken som en sky, der driver forbi.']},
+{id:'opp',n:'Modsat handling',fw:'DBT',min:2,st:['Hvilken følelse driver dig til at trække dig eller undgå?','Hvad ville den modsatte, lille handling være?','Gør den i 60 sekunder.','Læg mærke til, om følelsen ændrer styrke.']},
+{id:'grat',n:'Tre gode ting',fw:'Positiv psykologi',min:3,st:['Tænk på dagen i dag.','Find tre ting, der gik ok. Små tæller.','Vælg én og mærk, hvorfor den betød noget.']},
+{id:'strength',n:'Spot din styrke',fw:'Positiv psykologi',min:3,st:['Tænk på noget, du klarede for nylig.','Hvilken styrke brugte du? Vedholdenhed, humor, omsorg?','Hvordan kan du bruge den styrke i morgen?']},
+{id:'relax',n:'Lang udånding 4-6',fw:'Mindfulness',min:1,st:['Ind gennem næsen i 4 sekunder.','Ud gennem munden i 6 sekunder.','Gentag seks gange. Slip kæben.']},
+{id:'values',n:'Værdikompas',fw:'ACT',min:3,st:['Hvad er vigtigt for dig ved det her?','Hvilken type person vil du gerne være under presset?','Vælg ét lille skridt, der passer til det.']},
+{id:'comp',n:'Selvmedfølende pause',fw:'Mindfulness',min:2,st:['Læg en hånd på brystet.','Sig: Det her er svært lige nu.','Sig: Mange har det sådan. Jeg må være venlig mod mig selv.']},
+{id:'step',n:'Lille skridt mod det undgåede',fw:'KAT',min:3,st:['Hvad undgår du lige nu?','Del det op i et skridt på under 5 minutter.','Planlæg hvornår, og hvad der gør det lettere.']}
+];
+const TOPICS=[[/sove|søvn|vågen|nat|grubl|tanker/i,['worry','relax','comp']],[/eksamen|prøve|aflever|deadline/i,['worry','thought','values']],[/panik|puls|bange|angst|hjerte|ånde/i,['box','ground']],[/vred|skænd|konflikt|uenig|irriter/i,['opp','comp','thought']],[/undgå|tør ikke|udsætter/i,['step','values']],[/glad|tak|god dag|bedre/i,['grat','strength']]];
+const S={mem:[{t:'trigger',x:'Eksamen torsdag'},{t:'trigger',x:'Nattegrublerier'},{t:'event',x:'Projektaflevering fredag'}],uses:[],gad:[13,12],al:null,esc:[],msgs:[],paused:false,checked:false,crisis:false,share:true,notes:'',view:'chat'};
+let P=null;
+
+/* ---------- Safety guard: kører før coachen ---------- */
+function classify(t){
+ if(/selvmord|tage mit liv|ikke leve|vil dø|slå mig selv ihjel|skade mig selv|skære i mig|overdosis|gøre ende på|orker ikke mere/i.test(t))return'crisis';
+ if(/skade (andre|ham|hende)|slå (ham|hende) ihjel/i.test(t))return'others';
+ if(/overgreb|voldtag|traume|flashback|mishandl/i.test(t))return'trauma';
+ if(/stemmer i hovedet|overvåger mig|ikke sovet i flere dage|er usårlig/i.test(t))return'psych';
+ if(/brystsmerter|besvimer|kan ikke få luft/i.test(t))return'medical';
+ if(/medicin|dosis|antidepressiv|sovepiller|diagnose/i.test(t))return'med';
+ return'ok';
+}
+function ticket(type,t){S.esc.unshift({type,ex:t.slice(0,140),opened:Date.now(),st:'Åben'})}
+function msg(r,t,o={}){S.msgs.push(Object.assign({r,t},o));if(S.view==='chat')drawLog()}
+function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('on');clearTimeout(toast.h);toast.h=setTimeout(()=>e.classList.remove('on'),2800)}
+
+function drop(id){const u=S.uses.filter(x=>x.id===id);return u.length?u.reduce((a,x)=>a+x.b-x.a,0)/u.length:null}
+function pick(c){const l=c.map(id=>[id,drop(id)]);l.sort((a,b)=>(b[1]??.5)-(a[1]??.5));return SK.find(s=>s.id===l[0][0])}
+function offer(t){
+ const m=TOPICS.find(x=>x[0].test(t));const sk=pick(m?m[1]:['box','ground','thought']);
+ const d=drop(sk.id);return{sk,note:d>0?` Den hjalp dig sidst (${S.uses.filter(x=>x.id===sk.id).slice(-1)[0].b} → ${S.uses.filter(x=>x.id===sk.id).slice(-1)[0].a}).`:''};
+}
+function remember(t){
+ const R=[[/eksamen|prøve/i,'trigger','Eksamen torsdag'],[/sove|søvn|vågen|nat/i,'trigger','Nattegrublerier'],[/aflever|deadline/i,'event','Projektaflevering fredag'],[/skænd|konflikt|uenig/i,'event','Konflikt for nylig']];
+ let known=null;
+ R.forEach(([re,ty,x])=>{if(re.test(t)){if(S.mem.some(m=>m.x===x))known=known||x;else S.mem.push({t:ty,x})}});
+ const p=t.match(/\b(min|mine) (mor|far|kæreste|søster|bror|veninde|ven)\b/i);
+ if(p&&!S.mem.some(m=>m.x==='Nævnt: '+p[2]))S.mem.push({t:'person',x:'Nævnt: '+p[2]});
+ return known;
+}
+
+/* ---------- Coach ---------- */
+function coach(t){
+ const risk=classify(t);
+ if(S.crisis&&risk==='ok'){return setTimeout(()=>msg('c','Jeg er her. Et menneske fra teamet er underrettet og tager kontakt. Er du i fare nu, så ring 112. Livslinien: 70 201 201.',{crisis:true}),500)}
+ setTimeout(()=>{
+  if(risk==='crisis'||risk==='others'){S.crisis=true;ticket(risk==='crisis'?'Højrisiko: selvskade/suicidalitet':'Højrisiko: fare for andre',t);
+   msg('c','Jeg stopper med øvelser her, for det du skriver er alvorligt, og du fortjener et menneske lige nu.\n\nEr du i fare nu: ring 112.\nLivslinien: 70 201 201\n\nJeg har sendt en alarm til en klinikker i teamet med din samtale. Bliv her hos mig, mens de tager kontakt. Du behøver ikke klare det alene.',{crisis:true});return}
+  if(risk==='trauma'){ticket('Traume: henvisning til human behandling',t);msg('c','Tak fordi du fortæller det. Det, du har oplevet, er alvorligt, og det er ikke dit ansvar. Her kan jeg ikke være den rigtige hjælp, for traumer skal mødes af en person med særlig uddannelse. Jeg har bedt Dr. Holm om at kontakte dig om en henvisning. Jeg er her, hvis du vil have ro i kroppen imens.');return}
+  if(risk==='psych'){ticket('Klinikerflag: mulige psykotiske/maniske tegn',t);msg('c','Jeg lytter. Jeg giver ikke øvelser nu, men har bedt en klinikker kigge med. Vil du fortælle, hvad der fylder mest lige nu?');return}
+  if(risk==='medical'){msg('c','Det kan være noget fysisk, der skal tjekkes. Ring 112, hvis det er akut. Ellers kontakt din læge.');return}
+  if(risk==='med'){msg('c','Jeg stiller ikke diagnoser og rådgiver ikke om medicin. Spørg din læge eller Dr. Holm. Vil du i mellemtiden prøve en kort øvelse?');}
+  const known=remember(t);const o=offer(t);
+  const pre=known?`Jeg husker, at »${known.toLowerCase()}« fylder for dig. `:'';
+  msg('c',`${pre}Det lyder hårdt, og det giver mening, at kroppen reagerer. Vi tager én ting ad gangen.\n\nVil du prøve »${o.sk.n}« (${o.sk.min} min)?${o.note}`,{skill:o.sk.id});
+ },600);
+}
+function send(t){t=(t||$('#inp').value).trim();if(!t)return;msg('u',t);if($('#inp'))$('#inp').value='';coach(t)}
+function checkin(){
+ if(S.paused)return toast('Tjek-ind er sat på pause.');
+ if(S.checked)return toast('Maks. 1 uopfordret besked om dagen.');
+ S.checked=true;S.view='chat';render();
+ const u=S.uses.slice(-1)[0];
+ const t=u&&u.a<u.b?`Godaften Sara. Din eksamen er i morgen. Sidst hjalp »${SK.find(s=>s.id===u.id).n}« dig fra ${u.b} til ${u.a}. Vil du prøve den igen, så du kan sove roligt?`:'Godaften Sara. Din eksamen er i morgen. Hvordan har du det lige nu?';
+ msg('c',t,u?{skill:u.id}:{});
+}
+
+/* ---------- Skill player ---------- */
+function openSkill(id){P={id,ph:'b',i:0,b:5,a:5};drawDlg();$('#dlg').showModal()}
+function drawDlg(){
+ const s=SK.find(x=>x.id===P.id);let h=`<h2>${esc(s.n)}</h2><p class="muted">${esc(s.fw)} · ca. ${s.min} min</p>`;
+ if(P.ph==='b')h+=`<p>Hvor presset føler du dig lige nu? (0–10)</p><input type="range" min="0" max="10" value="${P.b}" id="rg" oninput="P.b=+this.value;$('#rv').textContent=this.value" aria-label="Pres før"><p class="big" id="rv">${P.b}</p><div class="row"><button class="btn" onclick="P.ph='s';drawDlg()">Start</button><button class="btn alt" onclick="$('#dlg').close()">Annuller</button></div>`;
+ if(P.ph==='s')h+=`<p class="muted">Trin ${P.i+1} af ${s.st.length}</p><p class="big">${esc(s.st[P.i])}</p><div class="row"><button class="btn" onclick="P.i++;if(P.i>=${s.st.length}){P.ph='a'}drawDlg()">${P.i===s.st.length-1?'Færdig':'Næste'}</button></div>`;
+ if(P.ph==='a')h+=`<p>Hvor presset føler du dig nu? (0–10)</p><input type="range" min="0" max="10" value="${P.b}" oninput="P.a=+this.value;$('#av').textContent=this.value" aria-label="Pres efter"><p class="big" id="av">${P.b}</p><div class="row"><button class="btn" onclick="endSkill()">Gem</button></div>`;
+ h+=`<details class="why"><summary>Hvorfor?</summary>Korte øvelser på 1–3 minutter holdt brugerne i gang i studiet.</details>`;
+ $('#dlg').innerHTML=h;if(P.ph==='a'){P.a=P.b}
+}
+function endSkill(){
+ const s=SK.find(x=>x.id===P.id);S.uses.push({id:P.id,b:P.b,a:P.a});$('#dlg').close();
+ if(P.a<P.b){S.mem.push({t:'helpful',x:`Hjalp: ${s.n} (${P.b} → ${P.a})`});msg('c',`Presset faldt fra ${P.b} til ${P.a}. Jeg husker, at »${s.n}« virkede for dig.`)}
+ else msg('c',`Ikke alle øvelser virker hver gang. Vil du prøve en anden?`,{skill:pick(['box','ground','comp','relax']).id});
+ S.view='chat';render();
+}
+
+/* ---------- Views ---------- */
+function why(t){return `<details class="why"><summary>Hvorfor?</summary>${t}</details>`}
+function drawLog(){const l=$('#log');if(!l)return;l.innerHTML=S.msgs.map(m=>`<div class="b ${m.r}${m.crisis?' crisis':''}">${esc(m.t)}${m.skill?`<div class="row"><button class="btn" onclick="openSkill('${m.skill}')">Prøv øvelsen</button></div>`:''}</div>`).join('');l.scrollTop=l.scrollHeight}
+function vChat(){
+ return `<div class="grid"><section class="card">${S.crisis?`<div class="alert"><b>Et menneske er underrettet.</b> Er du i fare nu: ring <b>112</b>. Livslinien: <b>70 201 201</b>.</div>`:''}<h2>Samtale</h2><div id="log" aria-live="polite"></div>
+ <div class="row">${['Jeg kan ikke sove, tankerne kører','Jeg er nervøs for eksamen','Jeg er blevet uenig med min veninde'].map(c=>`<button class="chip" onclick="send('${c}')">${c}</button>`).join('')}</div>
+ <div class="row"><input type="text" id="inp" placeholder="Skriv her" aria-label="Besked" onkeydown="if(event.key==='Enter')send()"><button class="btn" onclick="send()">Send</button></div>
+ ${why('Angst topper i øjeblikke mellem sessioner: om natten, før eksamen, efter konflikt. Derfor er coachen tilgængelig 24/7 og svarer inden for få sekunder.')}</section>
+ <aside><div class="card"><h2>Coachen husker</h2>${S.mem.map(m=>`<div class="mem"><span class="tag">${{trigger:'udløser',event:'begivenhed',person:'person',helpful:'hjalp'}[m.t]}</span>${esc(m.x)}</div>`).join('')}${why('Coachen starter aldrig forfra. Den husker udløsere, begivenheder og hvad der virkede.')}</div>
+ <div class="card" style="margin-top:16px"><h2>Demo-styring</h2><div class="row" style="flex-direction:column">
+ <button class="btn alt" onclick="send('Jeg kan ikke sove. Klokken er 02:07 og jeg bliver ved med at tænke på eksamen.')">Tirsdag 02:07</button>
+ <button class="btn alt" onclick="checkin()">Onsdag aften: tjek-ind</button>
+ <button class="btn alt" onclick="S.view='progress';render()">Fredag: ugens GAD-7</button>
+ <button class="btn alt" onclick="send('Jeg orker ikke mere og vil gerne tage mit liv')">Sikkerhedstest: højrisiko</button>
+ <button class="btn alt" onclick="send('Jeg har haft et overgreb og får flashbacks')">Sikkerhedstest: traume</button></div>
+ <label class="muted" style="display:block;margin-top:10px"><input type="checkbox" ${S.paused?'checked':''} onchange="S.paused=this.checked"> Sæt tjek-ind på pause</label>
+ ${why('Proaktive tjek-ind knyttes til dine kendte stressorer. Maks. 1 om dagen, ingen streaks eller skyldfølelse.')}</div></aside></div>`;
+}
+function vSkills(){
+ return `<h2>Færdigheder</h2><p class="muted">12 øvelser, alle i en 1–3 minutters version.</p><div class="skills">${SK.map(s=>{const d=drop(s.id);return `<div class="card"><b>${esc(s.n)}</b><div class="muted">${esc(s.fw)} · ${s.min} min${d!==null?` · snit ${d>0?'−':'+'}${Math.abs(d).toFixed(1)}`:''}</div><div class="row"><button class="btn" onclick="openSkill('${s.id}')">Prøv</button></div></div>`}).join('')}</div>${why('Korte, overkommelige øvelser fra KAT, ACT, DBT, mindfulness og positiv psykologi fastholder brugerne.')}`;
+}
+function chart(){
+ const g=S.gad,W=360,H=140,x=i=>20+i*(W-40)/Math.max(g.length-1,1),y=v=>H-10-v/21*(H-20);
+ const pts=g.map((v,i)=>`${x(i)},${y(v)}`).join(' ');
+ return `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="GAD-7 over tid: ${g.join(', ')}">${[5,10,15].map(v=>`<line x1="0" x2="${W}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)" stroke-dasharray="3 4"/><text x="${W-4}" y="${y(v)-3}" font-size="10" text-anchor="end" fill="var(--mute)">${v}</text>`).join('')}<polyline points="${pts}" fill="none" stroke="var(--sea)" stroke-width="3"/>${g.map((v,i)=>`<circle cx="${x(i)}" cy="${y(v)}" r="4" fill="var(--sea)"/><text x="${x(i)}" y="${y(v)-8}" font-size="11" text-anchor="middle" fill="var(--ink)">${v}</text>`).join('')}</svg>`;
+}
+const G7=['Nervøs, angst eller på spring','Ude af stand til at stoppe eller styre bekymringer','Bekymrer dig for meget om forskellige ting','Svært ved at slappe af','Så rastløs, at det er svært at sidde stille','Let irriteret eller gnaven','Bange for, at noget forfærdeligt kan ske'];
+function lvl(v){return v<5?'minimal':v<10?'mild':v<15?'moderat':'svær'}
+function vProgress(){
+ const l=S.gad.slice(-1)[0];
+ return `<div class="grid"><section class="card"><h2>Din angst over tid (GAD-7)</h2>${chart()}<p>Seneste: <b>${l}</b> (${lvl(l)}). Ændring siden start: <b>${l-S.gad[0]}</b>.</p>
+ ${why('Studiet målte angst med GAD-7. Vi måler ugentligt, så du kan se udviklingen.')}</section>
+ <section class="card"><h2>Ugens GAD-7</h2><p class="muted">De sidste 2 uger: hvor ofte har du været generet af …</p>${G7.map((q,i)=>`<div class="row" style="margin-top:6px"><label for="g${i}" style="flex:2;min-width:180px;font-size:14px">${q}</label><select id="g${i}"><option value="0">Slet ikke</option><option value="1">Flere dage</option><option value="2">Mere end halvdelen</option><option value="3">Næsten hver dag</option></select></div>`).join('')}<div class="row"><button class="btn" onclick="saveGad()">Gem</button></div></section>
+ <section class="card"><h2>Alliancepuls</h2><p class="muted">Hver 14. dag. 1 = slet ikke, 5 = helt.</p>${['Coachen er varm','Coachen er kompetent','Jeg føler mig forstået'].map((q,i)=>`<label style="display:block;font-size:14px;margin-top:6px">${q}<input type="range" min="1" max="5" value="${S.al?S.al[i]:3}" id="a${i}"></label>`).join('')}<div class="row"><button class="btn" onclick="S.al=[0,1,2].map(i=>+$('#a'+i).value);toast('Alliancepuls gemt');render()">Gem</button></div>${S.al?`<p>Gennemsnit: <b>${(S.al.reduce((a,b)=>a+b)/3).toFixed(1)}</b> / 5</p>`:''}${why('Relationen til coachen forudsagde brug, og brug forudsagde bedring.')}</section>
+ <section class="card"><h2>Taknemmelighed</h2><p class="muted">Ugens positive øvelse.</p><button class="btn" onclick="openSkill('grat')">Start</button>${why('Trivsel og styrker er med ved siden af symptomreduktion.')}</section></div>`;
+}
+function saveGad(){const s=G7.reduce((a,_,i)=>a+ +$('#g'+i).value,0);S.gad.push(s);toast(`GAD-7: ${s} (${lvl(s)})`);if(s>=15)ticket('Klinikerflag: GAD-7 ≥ 15','Score '+s);render()}
+function mmss(ms){ms=Math.max(0,ms);return String(Math.floor(ms/60000)).padStart(2,'0')+':'+String(Math.floor(ms/1000)%60).padStart(2,'0')}
+function vClinic(){
+ const u=S.uses.length,avg=u?(S.uses.reduce((a,x)=>a+x.b-x.a,0)/u).toFixed(1):'–',l=S.gad.slice(-1)[0],open=S.esc.filter(e=>e.st==='Åben').length;
+ return `<div class="grid"><section class="card"><h2>Dr. Holm: patient Sara</h2><label><input type="checkbox" ${S.share?'checked':''} onchange="S.share=this.checked;render()"> Sara deler ugeoversigt med Dr. Holm</label>
+ ${S.share?`<h3>Ugeoversigt</h3><p>GAD-7: ${S.gad.join(' → ')} (${lvl(l)}). ${u} øvelser gennemført, gennemsnitligt fald i pres ${avg} point. Aktive udløsere: ${S.mem.filter(m=>m.t==='trigger').map(m=>esc(m.x)).join(', ')}. Risikoflag: ${open?`<span class="sev">${open} åbne</span>`:'<span class="sev ok">ingen</span>'}</p>${chart()}<h3>Noter</h3><textarea rows="3" oninput="S.notes=this.value" aria-label="Noter">${esc(S.notes)}</textarea><div class="row"><button class="btn" onclick="toast('Kontakt er anmodet hos Sara')">Anmod om kontakt</button></div>`:'<p class="muted">Ingen deling. Kun risikohændelser når frem.</p>'}
+ ${why('Coachen er en bro, ikke en erstatning. Klinikeren ser fremskridt og alarmer og kan tage kontakt med ét klik.')}</section>
+ <section class="card"><h2>Eskalationskø</h2>${S.esc.length?S.esc.map((e,i)=>`<div class="mem" style="flex-direction:column"><div><span class="sev ${e.st==='Åben'?'':'ok'}">${e.st}</span> <b>${esc(e.type)}</b></div><div class="muted">»${esc(e.ex)}«</div>${e.st==='Åben'?`<div class="muted">Åben i <b data-open="${e.opened}">${mmss(Date.now()-e.opened)}</b> · SLA 15:00</div><div class="row"><button class="btn" onclick="resolve(${i})">Marker som løst</button></div>`:''}</div>`).join(''):'<p class="muted">Ingen hændelser. Prøv sikkerhedstesten i Chat.</p>'}
+ ${why('Studiets platform brugte et menneskeligt støtteteam. Risikohændelser lander hos et menneske med fuld kontekst.')}</section></div>`;
+}
+function resolve(i){S.esc[i].st='Løst';if(!S.esc.some(e=>e.st==='Åben'&&/Højrisiko/.test(e.type)))S.crisis=false;render()}
+function vDash(){
+ const al=S.al?(S.al.reduce((a,b)=>a+b)/3).toFixed(1):'4,2',ch=S.gad.slice(-1)[0]-S.gad[0];
+ const M=[['Dage/uge i brug','3,1',100*3.1/7],['Aktive i uge 12','61 %',61],['Alliance (1–5)',al.replace('.',','),100*al/5],['GAD-7 ændring (Sara)',String(ch),Math.min(100,Math.abs(ch)*10)],['Remission (kohorte)','57,9 %',57.9],['Eskalationer',String(S.esc.length),Math.min(100,S.esc.length*20)]];
+ const F=[['F2/F5','Døgnåben chat, hjælp i øjeblikket','Angst topper i øjeblikke mellem sessioner'],['F3','Vedvarende hukommelse','Coachen starter aldrig forfra'],['F4','12 mikro-øvelser, 1–3 min','Korte øvelser fastholder brug'],['F6','Proaktive tjek-ind','Støtte i svære perioder'],['F7/F8','GAD-7 og alliancepuls','Alliance driver brug, brug driver bedring'],['F9','Positiv psykologi','Mere end symptomreduktion'],['F11/F12','Klinikerblik og eskalation','Stepped care og hybridmodel'],['Scope','Traume uden for scope','Ingen effekt på PTSD i studiet']];
+ return `<h2>Programdashboard</h2><p class="muted">Kohortetal er syntetiske. GAD-7 og eskalationer for Sara er live.</p><div class="metrics">${M.map(m=>`<div class="card metric"><span class="muted">${m[0]}</span><b>${m[1]}</b><div class="bar"><i style="width:${m[2]}%"></i></div></div>`).join('')}</div>
+ <div class="card" style="margin-top:16px"><h2>Evidenskort</h2><div class="scroll"><table><tr><th>ID</th><th>Funktion</th><th>Studiets indsigt</th></tr>${F.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('')}</table></div>
+ <h3>Forbehold</h3><p class="muted">Studiet: 995 studerende i Israel under langvarig national stress, sammenlignet med gruppeterapi (ikke individuel). Forfatteren selv beder om forsigtig tolkning af angstfordelen. Demoen er inspireret af evidensen, ikke bevist.</p></div>`;
+}
+const TABS=[['chat','Chat'],['skills','Færdigheder'],['progress','Fremskridt'],['|'],['clinic','Klinik'],['dash','Dashboard']];
+function render(){
+ $('#nav').innerHTML=TABS.map(t=>t[0]==='|'?'<span class="sep"></span>':`<button ${S.view===t[0]?'aria-current="true"':''} onclick="S.view='${t[0]}';render()">${t[1]}</button>`).join('');
+ $('#view').innerHTML={chat:vChat,skills:vSkills,progress:vProgress,clinic:vClinic,dash:vDash}[S.view]();
+ if(S.view==='chat')drawLog();
+}
+setInterval(()=>document.querySelectorAll('[data-open]').forEach(e=>e.textContent=mmss(Date.now()-+e.dataset.open)),1000);
+$('#go').onclick=()=>{if($('#c1').checked&&$('#c2').checked){$('#onb').close();$('#onb').remove();msg('c','Hej Sara. Sidst talte vi om din eksamen torsdag og nætterne, hvor tankerne kører. Hvordan har du det lige nu?');render()}else toast('Bekræft begge felter for at starte')};
+render();
+$('#onb').addEventListener('cancel',e=>e.preventDefault());$('#onb').showModal();
+</script>
+</body>
+</html>

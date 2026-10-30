@@ -1,0 +1,11 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: cc
+      POSTGRES_PASSWORD: cc_dev_only
+      POSTGRES_DB: cc
+    ports: ["127.0.0.1:5432:5432"]
+    volumes: [dbdata:/var/lib/postgresql/data]
+volumes:
+  dbdata:
